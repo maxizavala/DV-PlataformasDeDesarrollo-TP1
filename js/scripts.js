@@ -28,6 +28,20 @@ function renderizarVuelos(vuelos) {
     });
 }
 
-fetch("./data/vuelos.json")
-    .then(res => res.json())
-    .then(data => renderizarVuelos(data));
+function obtenerVuelos() {
+    fetch("./data/vuelos.json")
+        .then(res => res.json())
+        .then(data => {
+            renderizarVuelos(data);
+        })
+        .catch(error => {
+            document.getElementById("tabla").innerHTML = `
+                <tr>
+                    <td colspan="4" class="text-danger">No se pudieron cargar los vuelos</td>
+                </tr>
+            `;
+        });
+}
+
+obtenerVuelos();
+setInterval(obtenerVuelos, 60000);
