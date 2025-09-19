@@ -28,10 +28,13 @@ function renderizarVuelos(vuelos) {
     });
 }
 
+let todos_los_vuelos = [];
+
 function obtenerVuelos() {
     fetch("./data/vuelos.json")
         .then(res => res.json())
         .then(data => {
+            todos_los_vuelos = data;
             renderizarVuelos(data);
         })
         .catch(error => {
@@ -43,5 +46,27 @@ function obtenerVuelos() {
         });
 }
 
+
 obtenerVuelos();
 setInterval(obtenerVuelos, 60000);
+
+
+function manejadorBusquedaCodigo(vuelos) {
+    const codigo = document.getElementById("input_codigo_vuelo").value;
+    const vuelo = vuelos.filter(v => v.codigo === codigo);
+
+    if (vuelo.length > 0) {
+        renderizarVuelos(vuelo);
+    } else {
+        document.getElementById("tabla").innerHTML = `
+            <tr>
+                <td colspan="4" class="text-danger">No se ha encontrado el vuelo</td>
+            </tr>
+        `;
+    }
+}
+
+
+document.getElementById("btn_buscar").addEventListener("click", function() {
+    manejadorBusquedaCodigo(todos_los_vuelos);
+});
