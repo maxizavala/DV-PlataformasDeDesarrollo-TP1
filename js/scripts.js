@@ -58,11 +58,8 @@ function manejadorBusquedaCodigo(vuelos) {
     if (vuelo.length > 0) {
         renderizarVuelos(vuelo);
     } else {
-        document.getElementById("tabla").innerHTML = `
-            <tr>
-                <td colspan="4" class="text-danger">No se ha encontrado el vuelo</td>
-            </tr>
-        `;
+        const modal_error = new bootstrap.Modal(document.getElementById('modal'));
+        modal_error.show();
     }
 }
 
